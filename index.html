@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ramen Ghosh - PhD Researcher</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0a0e27;
+            --bg-card: #1a1f3a;
+            --primary: #00d9ff;
+            --secondary: #6366f1;
+            --accent: #f59e0b;
+            --text: #e2e8f0;
+            --text-dim: #94a3b8;
+            --success: #10b981;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.03;
+            background: 
+                radial-gradient(circle at 20% 50%, var(--primary) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, var(--secondary) 0%, transparent 50%);
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 14, 39, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(10, 14, 39, 0.95);
+            box-shadow: 0 4px 30px rgba(0, 217, 255, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a:hover::before {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 6rem 2rem 4rem;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--text) 0%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-text .tagline {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .hero-text p {
+            font-size: 1.15rem;
+            color: var(--text-dim);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .research-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-bottom: 2rem;
+        }
+
+        .tag {
+            padding: 0.5rem 1rem;
+            background: rgba(0, 217, 255, 0.1);
+            border: 1px solid rgba(0, 217, 255, 0.3);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .tag:hover {
+            background: rgba(0, 217, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .social-bar {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: var(--text);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .social-link:hover {
+            background: var(--primary);
+            color: var(--bg-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 217, 255, 0.3);
+        }
+
+        .hero-image-container {
+            position: relative;
+        }
+
+        .profile-card {
+            background: rgba(26, 31, 58, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .profile-img {
+            width: 250px;
+            height: 250px;
+            border-radius: 20px;
+            object-fit: cover;
+            margin-bottom: 1.5rem;
+            border: 3px solid var(--primary);
+            box-shadow: 0 20px 60px rgba(0, 217, 255, 0.3);
+        }
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--success);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Section Styles */
+        section {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--text), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-dim);
+        }
+
+        /* Research Cards */
+        .research-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .research-card {
+            background: rgba(26, 31, 58, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .research-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .research-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 217, 255, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 217, 255, 0.2);
+        }
+
+        .research-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .research-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        .research-card p {
+            color: var(--text-dim);
+            line-height: 1.7;
+        }
+
+        /* Publications */
+        .publication-item {
+            background: rgba(26, 31, 58, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .publication-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 10px 40px rgba(0, 217, 255, 0.2);
+        }
+
+        .pub-title {
+            font-size: 1.3rem;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .pub-authors {
+            color: var(--text-dim);
+            font-style: italic;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .pub-venue {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .pub-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .pub-link {
+            padding: 0.4rem 1rem;
+            background: rgba(0, 217, 255, 0.1);
+            border: 1px solid rgba(0, 217, 255, 0.3);
+            border-radius: 8px;
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .pub-link:hover {
+            background: var(--primary);
+            color: var(--bg-dark);
+        }
+
+        /* Teaching Section */
+        .teaching-grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .course-card {
+            background: rgba(26, 31, 58, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .course-card:hover {
+            border-color: rgba(99, 102, 241, 0.5);
+            box-shadow: 0 10px 40px rgba(99, 102, 241, 0.2);
+        }
+
+        .course-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .course-title {
+            font-size: 1.4rem;
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .course-meta {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        /* Contact Section */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .contact-card {
+            background: rgba(26, 31, 58, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0, 217, 255, 0.2);
+        }
+
+        .contact-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin: 0 auto 1rem;
+        }
+
+        .contact-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .contact-card p {
+            color: var(--text-dim);
+        }
+
+        .contact-card a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(10, 14, 39, 0.9);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-dim);
+        }
+
+        /* Mobile Menu */
+        .mobile-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .mobile-toggle span {
+            width: 25px;
+            height: 2px;
+            background: var(--text);
+            transition: 0.3s;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                flex-direction: column;
+                background: rgba(10, 14, 39, 0.98);
+                padding: 1rem;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .mobile-toggle {
+                display: flex;
+            }
+
+            .research-tags,
+            .social-bar {
+                justify-content: center;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        /* Scroll Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <nav id="nav">
+        <div class="nav-container">
+            <div class="logo">Ramen Ghosh</div>
+            <div class="mobile-toggle" id="mobileToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#research">Research</a></li>
+                <li><a href="#publications">Publications</a></li>
+                <li><a href="#teaching">Teaching</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Ramen Ghosh</h1>
+                <p class="tagline">PhD Researcher</p>
+                <p>Exploring the intersection of signal processing, machine learning, and remote sensing to solve complex real-world problems. My research focuses on developing innovative algorithms that extract meaningful insights from multi-dimensional data.</p>
+                
+                <div class="research-tags">
+                    <span class="tag">Statistical Signal Processing</span>
+                    <span class="tag">Machine Learning</span>
+                    <span class="tag">Deep Learning</span>
+                    <span class="tag">Remote Sensing</span>
+                </div>
+
+                <div class="social-bar">
+                    <a href="mailto:ramen24@iiserb.ac.in" class="social-link" title="Email">✉</a>
+                    <a href="https://scholar.google.com/citations?hl=en&view_op=list_works&gmla=AElLoL04ndYqKYKHskOkQJesiY6F9epKDS-3Axmijnhlbfa30J0KTx4IUIBlvQsBwa_aCJq3P4bbclxybvgdgw&user=wYLD8rwAAAAJ" class="social-link" title="Google Scholar">GS</a>
+                    <a href="https://github.com/ramenstats" class="social-link" title="GitHub">⚡</a>
+                    <a href="#" class="social-link" title="LinkedIn">in</a>
+                    <a href="#" class="social-link" title="ResearchGate">RG</a>
+                </div>
+            </div>
+
+            <div class="hero-image-container">
+                <div class="profile-card">
+                    <img src="ramen.jpg" alt="Ramen Ghosh" class="profile-img">
+                    <div class="status">
+                        <span class="status-dot"></span>
+                        Open to Collaboration
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="research">
+        <div class="section-header">
+            <h2 class="section-title">Research Areas</h2>
+            <p class="section-subtitle">Advancing the frontiers of intelligent signal analysis</p>
+        </div>
+
+        <div class="research-grid">
+            <div class="research-card fade-in">
+                <div class="card-icon">📡</div>
+                <h3>Statistical Signal Processing</h3>
+                <p>Developing advanced statistical methods for signal detection, estimation, and analysis in noisy environments. Focus on adaptive filtering, spectrum estimation, and time-frequency analysis techniques.</p>
+            </div>
+
+            <div class="research-card fade-in">
+                <div class="card-icon">🤖</div>
+                <h3>Machine Learning</h3>
+                <p>Designing novel ML algorithms for pattern recognition, classification, and regression tasks. Research includes ensemble methods, feature engineering, and optimization techniques for high-dimensional data.</p>
+            </div>
+
+            <div class="research-card fade-in">
+                <div class="card-icon">🧠</div>
+                <h3>Deep Learning</h3>
+                <p>Exploring neural network architectures for complex signal processing tasks. Work includes CNNs for image analysis, RNNs for temporal patterns, and transformer models for multi-modal data fusion.</p>
+            </div>
+
+            <div class="research-card fade-in">
+                <div class="card-icon">🛰️</div>
+                <h3>Remote Sensing</h3>
+                <p>Applying AI and signal processing techniques to satellite imagery and geospatial data. Research focuses on land cover classification, change detection, and environmental monitoring applications.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="publications">
+        <div class="section-header">
+            <h2 class="section-title">Selected Publications</h2>
+            <p class="section-subtitle">Recent contributions to the field</p>
+        </div>
+
+        <div class="publication-item fade-in">
+            <h3 class="pub-title">DAR2A-Net: Pixelwise Distance Aware Recurrent Residual Attention Net for Efficient Hyperspectral Change Detection</h3>
+            <p class="pub-authors">Ramen Ghosh, Samiran Das</p>
+            <p class="pub-venue">IEEE Geoscience and Remote Sensing Letters • 2025</p>
+            <div class="pub-links">
+                <a href="#" class="pub-link">📄 Paper</a>
+                <a href="#" class="pub-link">💻 Code</a>
+                <a href="#" class="pub-link">📊 Dataset</a>
+            </div>
+        </div>
+
+        <div class="publication-item fade-in">
+            <h3 class="pub-title">Unmixing Aware Semantic Feature Fused Network for Accurate Multi-Class Hyperspectral Change Detection</h3>
+            <p class="pub-authors">Ramen Ghosh, Samiran Das</p>
+            <p class="pub-venue">IEEE WHISPER • 2025</p>
+            <div class="pub-links">
+                <a href="#" class="pub-link">📄 Paper</a>
+                <a href="#" class="pub-link">🎤 Slides</a>
+                <a href="#" class="pub-link">🎬 Video</a>
+            </div>
+        </div>
+
+        </div>
+    </section>
+
+    <section id="teaching">
+        <div class="section-header">
+            <h2 class="section-title">Teaching & Mentoring</h2>
+            <p class="section-subtitle">Sharing knowledge and inspiring the next generation</p>
+        </div>
+
+        <div class="teaching-grid">
+            <div class="course-card fade-in">
+                <div class="course-header">
+                    <h3 class="course-title">Applied Accelerated Artificial Inteligence</h3>
+                    <span class="course-meta">Spring 2025 • Graduate Level</span>
+                </div></div>
+                
+
+            <div class="course-card fade-in">
+                <div class="course-header">
+                    <h3 class="course-title">Introduction to C Programming</h3>
+                    <span class="course-meta">Fall 2024 • Graduate Level</span>
+                </div></div>
+                
+
+            <div class="course-card fade-in">
+                <div class="course-header">
+                    <h3 class="course-title">Foundation of Database System</h3>
+                    <span class="course-meta">Spring 2024 • Undergraduate Level</span>
+                </div>
+                </div>
+            <div class="course-card fade-in">
+                <div class="course-header">
+                    <h3 class="course-title">Experience: Project Linked Person , Indian Statistical Institute Kolkata</h3>
+                    <!--<span class="course-meta">Spring 2024 • Undergraduate Level</span>-->
+                </div>
+                </div>
+        </div>
+
+        <div class="course-card fade-in" style="margin-top: 2rem; background: linear-gradient(135deg, rgba(0, 217, 255, 0.1), rgba(99, 102, 241, 0.1));">
+            <h3 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.3rem;">Student Opportunities</h3>
+            <p style="color: var(--text-dim); line-height: 1.8;">I'm actively looking for motivated students interested in signal processing, machine learning, and remote sensing. Whether you're an undergraduate looking for research experience or a graduate student seeking supervision, I welcome inquiries about potential collaborations.</p>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="section-header">
+            <h2 class="section-title">Get In Touch</h2>
+            <p class="section-subtitle">Let's collaborate on exciting research</p>
+        </div>
+
+        <div class="contact-grid">
+            <div class="contact-card fade-in">
+                <div class="contact-icon">✉</div>
+                <h3>Email</h3>
+                <p><a href="mailto:ramen24@iiserb.ac.in">ramen24@iiserb.ac.in</a></p>
+            </div>
+
+            <div class="contact-card fade-in">
+                <div class="contact-icon">📍</div>
+                <h3>Location</h3>
+                <p>Department of DSE<br>Indian Institute of Science Education and Research <br>Bhopal, India</p>
+            </div>
+
+            <div class="contact-card fade-in">
+                <div class="contact-icon">📚</div>
+                <h3>Scholar Profiles</h3>
+                <p><a href="https://scholar.google.com/citations?view_op=list_works&hl=en&hl=en&user=wYLD8rwAAAAJ">Google Scholar</a> • <a href="https://scholar.google.com/citations?view_op=list_works&hl=en&hl=en&user=wYLD8rwAAAAJ">ResearchGate</a></p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Ramen Ghosh • PhD Researcher in Signal Processing & Machine Learning</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem;">Built with passion for research and innovation</p>
+    </footer>
+
+    <script>
+        // Navigation scroll effect
+        const nav = document.getElementById('nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile menu toggle
+        const mobileToggle = document.getElementById('mobileToggle');
+        const navLinks = document.getElementById('navLinks');
+        
+        mobileToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    navLinks.classList.remove('active');
+                }
+            });
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
